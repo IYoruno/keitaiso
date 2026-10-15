@@ -16,14 +16,9 @@ def convert(text: str, tagger: MeCab.Tagger) -> str:
             conjugation = features[5] if len(features) > 5 else "*"
 
             if pos == "助詞" or pos == "補助記号":
-                # 助詞・記号はそのまま
                 result.append(node.surface)
 
-            elif pos == "動詞":
-                result.append("[動詞]")
-
             else:
-                # 動詞・助詞・記号以外は品詞名
                 result.append(f"[{pos}]")
 
         node = node.next
@@ -53,7 +48,6 @@ def main():
     text = input_path.read_text(encoding="utf-8")
     tagger = MeCab.Tagger()
 
-    # 改行を維持して各行を変換
     converted = "\n".join(
         convert(line, tagger) for line in text.splitlines()
     )
